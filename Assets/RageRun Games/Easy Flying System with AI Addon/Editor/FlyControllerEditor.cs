@@ -72,11 +72,11 @@ namespace RageRunGames.EasyFlyingSystem
             EditorGUILayout.EndHorizontal();
         }
 
-        [MenuItem("Tools/Easy Flying System/Toggle AI & Keyboard Input %&t")]
+        /*[MenuItem("Tools/Easy Flying System/Toggle AI & Keyboard Input %&t")]
         private static void ToggleAIKeyboardInput()
         {
             DroneController droneController = FindFirstObjectByType<DroneController>();
-
+            Debug.Log("Drone Controller name in FlyEditor : "+droneController.name);
             if (droneController == null)
             {
                 Debug.LogWarning("No DroneController found in the scene!");
@@ -101,8 +101,48 @@ namespace RageRunGames.EasyFlyingSystem
                     EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
                 }
             }
-        }
+        }*/
+        [MenuItem("Tools/Easy Flying System/Toggle AI & Keyboard Input %&t")]
+        private static void ToggleAIKeyboardInput()
+        {
+            // Get the currently selected GameObject in the editor
+            GameObject selectedObject = Selection.activeGameObject;
 
-        
+            if (selectedObject == null)
+            {
+                Debug.LogWarning("No object selected in the scene!");
+                return;
+            }
+
+            // Attempt to get the DroneController component from the selected object
+            DroneController droneController = selectedObject.GetComponent<DroneController>();
+
+            if (droneController == null)
+            {
+                Debug.LogWarning("Selected object does not have a DroneController!");
+                return;
+            }
+
+            // Log the name of the selected DroneController
+            Debug.Log("Drone Controller name in FlyEditor: " + droneController.name);
+
+            // Check the current input type and switch accordingly
+            if (droneController.GetInputType() == InputType.AI)
+            {
+                droneController.AddKeyboardInputs();
+                Debug.Log("Switched to Keyboard Input");
+            }
+            else
+            {
+                droneController.AddAIInputs();
+                Debug.Log("Switched to AI Input");
+            }
+
+            // If not in play mode, mark the scene as dirty to save changes
+            if (!Application.isPlaying)
+            {
+                EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+            }
+        }
     }
 }

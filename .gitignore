@@ -20,6 +20,8 @@ builds/
 # User-specific files
 .idea/
 .vscode/
+.vs
+.vs/*
 
 # Windows system files
 Thumbs.db
