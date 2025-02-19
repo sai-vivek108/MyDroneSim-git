@@ -1,0 +1,48 @@
+# User-specific files
+*.swp
+*.swo
+*~
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]istro/
+[Dd]evelopment/
+[Dd]evelopmentPublic/
+[Dd]ebug_x86/
+[Dd]ebug_x86_64/
+[Dd]ebug_arm/
+[Dd]ebug_arm64/
+[Dd]ebug_universal/
+build/
+builds/
+
+# User-specific files
+.idea/
+.vscode/
+
+# Windows system files
+Thumbs.db
+Desktop.ini
+
+# macOS system files
+.DS_Store
+
+# Unity specific files
+[Ll]ibrary/
+[Ll]ibrary/*
+[Tt]emp/
+[Tt]emp/*
+[Bb]in/
+[Bb]in/*
+
+# Auto-generated files
+*.log
+*.meta
+*.meta/*
+*.assets
+
+# Asset serialization files
+*.csproj
+*.sln
+*.userprefs
