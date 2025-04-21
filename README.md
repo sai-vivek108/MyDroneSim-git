@@ -1,2 +1,462 @@
-# MyDroneSim
-Working on an AI-powered drone navigation system in Unity using autonomous agents for dynamic obstacle avoidance &amp; task execution.
+# Drone Control Testbed - Code Documentation
+
+## Table of Contents
+1. [Core Drone Control System](#core-drone-control-system)
+2. [UI and Visualization](#ui-and-visualization)
+3. [Input Handling System](#input-handling-system)
+4. [Network and Communication](#network-and-communication)
+5. [Management and Coordination](#management-and-coordination)
+
+## Core Drone Control System
+
+### DroneController.cs
+**Purpose**: The central controller for drone behavior, movement, and state management.
+
+**Key Features**:
+- Handles drone physics and movement calculations
+- Manages input type switching (Keyboard, AI, etc.)
+- Controls network ownership and synchronization
+- Implements drone selection and control transfer
+- Provides status updates for UI elements
+
+**Important Methods**:
+- `HandleDroneSelection`: Manages drone selection and ownership transfer
+- `SetInputType`: Switches between different input handlers
+- `UpdateStatus`: Sends position, velocity, and grounded state updates
+
+**Customization Options**:
+- **Flight Characteristics**: Adjust `maxSpeed`, `pitchAmount`, `yawAmount`, and `rollAmount` to change flight behavior
+- **Hover Settings**: Modify `enableHover`, `hoverAmplitude`, and `hoverFrequency` to adjust hover behavior
+- **Ground Interaction**: Change `groundCheckDistance`, `decelerateOnGround`, and `decelSpeedOnGround` to modify ground interaction
+- **Network Settings**: Adjust `networkUpdateInterval` to change how frequently network updates are sent
+
+**Implementation Notes**:
+- To add new flight modes, extend the `DroneController` class and override the `UpdateMovement` method
+- To implement battery functionality, add a battery property and update the UI accordingly
+- To add new status information, modify the `OnStatusUpdate` event to include additional parameters
+
+**Screenshot Placeholder**:
+[Insert screenshot of DroneController in Unity Inspector]
+
+### BaseFlyController.cs
+**Purpose**: Base class providing common flight mechanics for all flying vehicles.
+
+**Key Features**:
+- Implements basic flight physics
+- Provides movement calculations
+- Handles rotation and thrust
+
+**Customization Options**:
+- **Physics Parameters**: Adjust `maxSpeed`, `thrustForce`, and other physics-related variables
+- **Movement Constraints**: Modify `disablePitch`, `disableRoll`, and `disableYaw` to restrict movement
+- **Auto Movement**: Change `autoForwardMovement` to enable/disable automatic forward movement
+
+**Implementation Notes**:
+- To create a new flying vehicle type, inherit from `BaseFlyController` and customize the movement behavior
+- To add special effects (like afterburners), override the `Update` method and add your effects there
+- To implement different flight modes, add a flight mode enum and modify the `UpdateMovement` method accordingly
+
+**Screenshot Placeholder**:
+[Insert screenshot of BaseFlyController in Unity Inspector]
+
+## UI and Visualization
+
+### DroneVideoPanelItem.cs
+**Purpose**: Manages individual drone video panels in the UI.
+
+**Key Features**:
+- Displays drone camera feed
+- Shows altitude, speed, and battery information
+- Provides selection functionality
+- Updates status indicators
+
+**Important Methods**:
+- `Initialize`: Sets up the panel with a specific drone
+- `UpdateStatus`: Updates UI elements with current drone data
+- `OnSelectButtonClicked`: Handles drone selection
+
+**Customization Options**:
+- **UI Elements**: Add new UI elements by creating serialized fields and connecting them in the Inspector
+- **Update Interval**: Change `updateInterval` to adjust how frequently the UI updates
+- **Status Colors**: Modify `normalStatusColor`, `warningStatusColor`, and `dangerStatusColor` to change status indicators
+- **Selection Color**: Adjust `selectedColor` to change the appearance of selected drones
+
+**Implementation Notes**:
+- To add new status information, modify the `UpdateStatus` method to display additional data
+- To change the video feed resolution, adjust the `RenderTexture` creation parameters
+- To implement custom selection behavior, modify the `OnSelectButtonClicked` method
+
+**Screenshot Placeholder**:
+[Insert screenshot of DroneVideoPanelItem in Unity Inspector]
+
+### DroneVideoPanel.cs
+**Purpose**: Manages the collection of drone video panels.
+
+**Key Features**:
+- Creates and arranges video panels in a grid
+- Handles adding and removing drone views
+- Manages camera feed connections
+
+**Important Methods**:
+- `AddDroneView`: Creates a new panel for a drone
+- `RemoveDroneView`: Removes a panel when a drone is disconnected
+- `UpdatePanelLayout`: Arranges panels in a grid layout
+
+**Customization Options**:
+- **Panel Layout**: Adjust `maxPanels`, `panelSize`, and `panelSpacing` to change the grid layout
+- **Video Quality**: Modify the `RenderTexture` creation parameters to change video quality
+- **Panel Prefab**: Create a custom panel prefab and assign it to `videoPanelPrefab`
+
+**Implementation Notes**:
+- To implement a different layout system, override the `UpdatePanelLayout` method
+- To add filtering or sorting of drones, modify the `AddDroneView` method
+- To implement panel grouping, add a grouping system to the `DroneVideoPanel` class
+
+**Screenshot Placeholder**:
+[Insert screenshot of DroneVideoPanel in Unity Inspector]
+
+### MinimapManager.cs
+**Purpose**: Manages the minimap display showing drone positions.
+
+**Key Features**:
+- Displays drone positions on a minimap
+- Updates positions in real-time
+- Provides navigation assistance
+
+**Customization Options**:
+- **Map Size**: Adjust the map scale and boundaries
+- **Icon Appearance**: Modify the appearance of drone icons on the minimap
+- **Update Frequency**: Change how often positions are updated
+
+**Implementation Notes**:
+- To add terrain features to the minimap, modify the minimap texture or add terrain markers
+- To implement zoom functionality, add zoom controls and adjust the map scale accordingly
+- To add path visualization, implement a path drawing system in the `MinimapManager`
+
+**Screenshot Placeholder**:
+[Insert screenshot of MinimapManager in Unity Inspector]
+
+## Input Handling System
+
+### IInputHandler.cs
+**Purpose**: Interface defining the contract for all input handlers.
+
+**Key Features**:
+- Defines properties for flight controls (Pitch, Roll, Yaw, Lift)
+- Specifies methods for input handling
+
+**Implementation Notes**:
+- To add new input properties, extend the interface with additional properties
+- To implement a new input type, create a class that implements this interface
+- To add new input methods, extend the interface with additional method signatures
+
+**Screenshot Placeholder**:
+[Insert screenshot of IInputHandler in Unity Inspector]
+
+### BaseInputHandler.cs
+**Purpose**: Abstract base class implementing common input handling functionality.
+
+**Key Features**:
+- Implements IInputHandler interface
+- Provides common input processing logic
+- Manages input state tracking
+
+**Customization Options**:
+- **Input Evaluation**: Modify the `EvaluateAnyKeyDown` method to change how input state is determined
+- **Update Logic**: Override the `Update` method to implement custom update behavior
+
+**Implementation Notes**:
+- To add new input properties, extend the class with additional properties
+- To implement custom input processing, override the `UpdateInputs` method
+- To add input validation, implement validation logic in the `HandleInputs` method
+
+**Screenshot Placeholder**:
+[Insert screenshot of BaseInputHandler in Unity Inspector]
+
+### KeyboardInputHandler.cs
+**Purpose**: Handles keyboard input for drone control.
+
+**Key Features**:
+- Maps keyboard keys to flight controls
+- Implements smooth input transitions
+- Provides configurable input sensitivity
+
+**Important Methods**:
+- `HandleInputs`: Processes keyboard input
+- `CalculateSmoothedInput`: Applies smoothing to raw input
+- `CalculateRotorResponse`: Simulates rotor response delay
+
+**Customization Options**:
+- **Key Mapping**: Modify the `KeyInputs` class to change which keys control which actions
+- **Input Sensitivity**: Adjust `inputSmoothness`, `inputAcceleration`, and `inputDeceleration` to change input feel
+- **Rotor Response**: Modify `rotorResponseDelay`, `rotorSmoothness`, `rotorAcceleration`, and `rotorDeceleration` to change rotor behavior
+
+**Implementation Notes**:
+- To add new keyboard controls, modify the `HandleInputs` method to detect additional keys
+- To implement key combinations, add logic to detect multiple keys pressed simultaneously
+- To add input profiles, create a system to switch between different key mappings
+
+**Screenshot Placeholder**:
+[Insert screenshot of KeyboardInputHandler in Unity Inspector]
+
+### AIInputHandler.cs
+**Purpose**: Provides AI-controlled flight behavior.
+
+**Key Features**:
+- Implements various AI behaviors (Follow, Wander, Waypoint)
+- Handles obstacle avoidance
+- Uses PID controllers for stable flight
+
+**Important Methods**:
+- `HandleFollow`: Implements target following behavior
+- `HandleWander`: Implements random wandering behavior
+- `HandlePatrol`: Implements waypoint patrolling
+- `DetectObstacles`: Implements obstacle detection and avoidance
+
+**Customization Options**:
+- **AI Behavior**: Change `aiType` to switch between different AI behaviors
+- **Obstacle Avoidance**: Adjust `obstacleDetectionDistance`, `numberOfRays`, and `raySpreadAngle` to modify obstacle avoidance
+- **PID Controllers**: Modify the PID controller parameters to change flight stability
+- **Wander Settings**: Adjust `wanderRadius` and `wanderTimer` to change wandering behavior
+- **Waypoint Settings**: Configure `wayPointHolder` to set up patrol routes
+
+**Implementation Notes**:
+- To add a new AI behavior, create a new method similar to `HandleFollow` and add a new enum value to `AIType`
+- To improve obstacle avoidance, enhance the `DetectObstacles` method with more sophisticated detection
+- To implement formation flying, add formation logic to coordinate multiple drones
+
+**Screenshot Placeholder**:
+[Insert screenshot of AIInputHandler in Unity Inspector]
+
+### JoystickInputHandler.cs
+**Purpose**: Handles joystick/gamepad input for drone control.
+
+**Key Features**:
+- Maps joystick axes to flight controls
+- Provides configurable sensitivity
+- Implements input smoothing
+
+**Customization Options**:
+- **Axis Mapping**: Modify which joystick axes control which flight actions
+- **Sensitivity**: Adjust sensitivity parameters to change input responsiveness
+- **Deadzone**: Implement deadzone settings to ignore small joystick movements
+
+**Implementation Notes**:
+- To support additional joystick buttons, extend the input handling to detect button presses
+- To implement different joystick profiles, create a system to switch between configurations
+- To add force feedback, implement haptic feedback based on flight conditions
+
+**Screenshot Placeholder**:
+[Insert screenshot of JoystickInputHandler in Unity Inspector]
+
+### MobileInputHandler.cs
+**Purpose**: Handles touch input for mobile devices.
+
+**Key Features**:
+- Maps touch gestures to flight controls
+- Provides mobile-specific UI elements
+- Adapts to different screen sizes
+
+**Customization Options**:
+- **Touch Controls**: Modify how touch gestures are interpreted
+- **UI Layout**: Adjust the mobile control UI layout
+- **Sensitivity**: Change touch sensitivity parameters
+
+**Implementation Notes**:
+- To add new touch gestures, extend the touch detection logic
+- To implement tilt controls, add accelerometer-based control
+- To support different mobile devices, add device-specific adjustments
+
+**Screenshot Placeholder**:
+[Insert screenshot of MobileInputHandler in Unity Inspector]
+
+### MouseInputHandler.cs
+**Purpose**: Handles mouse input for drone control.
+
+**Key Features**:
+- Maps mouse movement to flight controls
+- Provides cursor-based control
+- Implements mouse sensitivity settings
+
+**Customization Options**:
+- **Mouse Mapping**: Change which mouse movements control which flight actions
+- **Sensitivity**: Adjust mouse sensitivity parameters
+- **Cursor Behavior**: Modify cursor locking and visibility settings
+
+**Implementation Notes**:
+- To implement click-to-move, add logic to detect mouse clicks and set target positions
+- To add mouse wheel controls, implement vertical movement based on wheel input
+- To support different mouse control modes, create a system to switch between modes
+
+**Screenshot Placeholder**:
+[Insert screenshot of MouseInputHandler in Unity Inspector]
+
+## Network and Communication
+
+### DroneCommunication.cs
+**Purpose**: Handles communication between drones and external systems.
+
+**Key Features**:
+- Implements message sending and receiving
+- Manages communication protocols
+- Handles status updates
+
+**Customization Options**:
+- **Message Format**: Modify the message format to include additional information
+- **Update Frequency**: Change how often status updates are sent
+- **Protocol Settings**: Adjust communication protocol parameters
+
+**Implementation Notes**:
+- To add new message types, extend the message handling system
+- To implement secure communication, add encryption to the message system
+- To support different communication protocols, create a protocol abstraction layer
+
+**Screenshot Placeholder**:
+[Insert screenshot of DroneCommunication in Unity Inspector]
+
+### CommunicationManager.cs
+**Purpose**: Manages overall communication in the system.
+
+**Key Features**:
+- Coordinates communication between components
+- Handles message routing
+- Manages communication protocols
+
+**Customization Options**:
+- **Routing Rules**: Modify how messages are routed between components
+- **Protocol Selection**: Change which communication protocols are used
+- **Message Filtering**: Implement message filtering based on content or source
+
+**Implementation Notes**:
+- To add new communication channels, extend the communication system
+- To implement message prioritization, add priority levels to messages
+- To support different communication modes, create a mode switching system
+
+**Screenshot Placeholder**:
+[Insert screenshot of CommunicationManager in Unity Inspector]
+
+### NetworkManagerUI.cs
+**Purpose**: Provides UI for network connection management.
+
+**Key Features**:
+- Displays connection status
+- Provides host/client selection
+- Shows connection options
+
+**Customization Options**:
+- **UI Layout**: Modify the network UI layout
+- **Connection Options**: Add additional connection options
+- **Status Display**: Change how connection status is displayed
+
+**Implementation Notes**:
+- To add new connection types, extend the connection options
+- To implement connection diagnostics, add diagnostic tools to the UI
+- To support different network configurations, create a configuration system
+
+**Screenshot Placeholder**:
+[Insert screenshot of NetworkManagerUI in Unity Inspector]
+
+## Management and Coordination
+
+### DroneManager.cs
+**Purpose**: Central manager for all drones in the system.
+
+**Key Features**:
+- Registers and tracks all drones
+- Manages drone spawning and despawning
+- Coordinates drone selection
+- Handles network client connections
+
+**Important Methods**:
+- `RegisterDrone`: Adds a drone to the management system
+- `SpawnDroneForClient`: Creates a new drone for a connecting client
+- `OnClientConnected`: Handles new client connections
+- `OnClientDisconnected`: Handles client disconnections
+
+**Customization Options**:
+- **Spawn Behavior**: Modify `GetRandomSpawnPosition` to change where drones spawn
+- **Drone Registration**: Change how drones are registered and tracked
+- **Client Handling**: Adjust how client connections are managed
+
+**Implementation Notes**:
+- To implement drone teams, add team assignment logic to the registration system
+- To add drone persistence, implement a system to save and load drone states
+- To support different drone types, extend the drone spawning system
+
+**Screenshot Placeholder**:
+[Insert screenshot of DroneManager in Unity Inspector]
+
+### RotorsAnimation.cs
+**Purpose**: Controls the animation of drone rotors.
+
+**Key Features**:
+- Animates rotor blades based on throttle
+- Provides visual feedback for drone operation
+- Synchronizes rotor speed with flight controls
+
+**Customization Options**:
+- **Animation Speed**: Adjust rotor animation speed parameters
+- **Visual Effects**: Modify visual effects associated with rotor operation
+- **Sound Effects**: Add or change sound effects for rotor operation
+
+**Implementation Notes**:
+- To implement different rotor types, create a system to switch between rotor models
+- To add damage visualization, implement rotor damage effects
+- To synchronize rotor effects with flight physics, enhance the physics integration
+
+**Screenshot Placeholder**:
+[Insert screenshot of RotorsAnimation in Unity Inspector]
+
+## System Architecture
+
+The drone simulation system follows a modular architecture with clear separation of concerns:
+
+1. **Core Control**: The `DroneController` and `BaseFlyController` provide the fundamental flight mechanics.
+2. **Input Handling**: Various input handlers implement the `IInputHandler` interface to provide different control methods.
+3. **UI and Visualization**: The video panel system provides visual feedback and control interfaces.
+4. **Network and Communication**: Communication components enable multiplayer functionality.
+5. **Management**: The `DroneManager` coordinates all components and manages the overall system.
+
+**Architecture Diagram Placeholder**:
+[Insert architecture diagram showing component relationships]
+
+## Interaction Flow
+
+1. User selects a drone through the UI
+2. `DroneVideoPanelItem` triggers the `OnDroneSelected` event
+3. `DroneController` receives the selection and:
+   - Changes network ownership to the host
+   - Switches input type to keyboard
+   - Updates visual indicators
+4. The host can now control the selected drone
+5. Status updates are sent to the UI for display
+
+**Interaction Flow Diagram Placeholder**:
+[Insert diagram showing the interaction flow]
+
+## Extension Points
+
+The system is designed with several extension points to facilitate future development:
+
+1. **New Input Types**: Implement new classes that inherit from `BaseInputHandler` to add new control methods
+2. **New Drone Types**: Create new classes that inherit from `DroneController` to implement specialized drones
+3. **New UI Elements**: Extend the `DroneVideoPanelItem` to display additional information
+4. **New AI Behaviors**: Add new behavior methods to `AIInputHandler` to implement new AI patterns
+5. **New Communication Protocols**: Extend the communication system to support additional protocols
+
+## Best Practices for Modifications
+
+When modifying the codebase, follow these best practices:
+
+1. **Maintain Interface Compatibility**: When extending interfaces or base classes, ensure backward compatibility
+2. **Use Serialized Fields**: Expose configurable parameters as serialized fields to allow adjustment in the Inspector
+3. **Follow Event-Based Architecture**: Use events for communication between components to maintain loose coupling
+4. **Document Changes**: Add comments to explain complex logic or non-obvious implementations
+5. **Test Thoroughly**: Test modifications in both single-player and multiplayer scenarios
+
+## Conclusion
+
+This drone simulation system provides a comprehensive framework for controlling and visualizing drones in a networked environment. The modular architecture allows for easy extension and customization, while the separation of concerns ensures maintainability and clarity.
+
+**Screenshot Placeholder**:
+[Insert screenshot of the complete system in action] 
