@@ -260,12 +260,35 @@ The system is designed with several extension points to facilitate future develo
 4. **New AI Behaviors**: Add new behavior methods to `AIInputHandler` to implement new AI patterns
 5. **New Communication Protocols**: Extend the communication system to support additional protocols
 
-## Best Practices for Modifications
+## References
 
-When modifying the codebase, follow these best practices:
+### Unity Assets and Packages
+- **[Easy Flying System with AI Addon](https://assetstore.unity.com/packages/templates/packs/easy-flying-system-with-ai-add-on-228389)**: Base drone control system and AI implementation
+- **Unity Standard Assets**: Used for basic input handling and camera controls
+- **Unity UI System**: For creating the video panel interface and minimap
+- **[CodeMonkey](https://unitycodemonkey.com/kitchenchaosmultiplayercourse.php)**: Best content for beginners with no previous experience with unity.
+- **[Suburbs](https://assetstore.unity.com/packages/3d/environments/urban/suburb-neighborhood-house-pack-modular-72712)**
+- **[CityScape](https://assetstore.unity.com/packages/3d/environments/urban/town-constructor-3-71070)**
 
-1. **Maintain Interface Compatibility**: When extending interfaces or base classes, ensure backward compatibility
-2. **Use Serialized Fields**: Expose configurable parameters as serialized fields to allow adjustment in the Inspector
-3. **Follow Event-Based Architecture**: Use events for communication between components to maintain loose coupling
-4. **Document Changes**: Add comments to explain complex logic or non-obvious implementations
-5. **Test Thoroughly**: Test modifications in both single-player and multiplayer scenarios 
+
+### External Libraries
+- **Unity Networking**: For multiplayer functionality and network synchronization
+- **Unity Input System**: For handling various input devices (keyboard, joystick, mobile)
+- **Unity UI Toolkit**: For creating responsive and dynamic user interfaces
+
+### Development Tools
+- **Unity Editor**: Version 2022.3 LTS
+- **Visual Studio**: For C# development and debugging
+- **Git**: For version control and collaboration
+
+### Documentation Resources
+- [Unity Documentation](https://docs.unity3d.com/)
+- [Unity Input System Documentation](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/index.html)
+- [Unity Networking Documentation](https://docs.unity3d.com/Manual/UNetOverview.html)
+- [Unity AI Navigation](https://docs.unity3d.com/Manual/nav-Overview.html)
+
+### Acknowledgments
+- **Unity Technologies**: For providing the game engine and development tools
+- **RageRun Games**: For the Easy Flying System with AI Addon
+- **Open Source Community**: For various tools and resources used in development
+- **AI Tools(ChatGPT and Gemini)**: For error resolution and structured format of project and documentation.
