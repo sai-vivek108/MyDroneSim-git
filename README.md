@@ -349,8 +349,8 @@ The drone simulation system follows a modular architecture with clear separation
     * 1.	Changes network ownership to the host
     * 2.	Switches input type to keyboard
     * 3.	Updates visual indicators
-4.	The host can now control the selected drone
-5.	Status updates are sent to the UI for display
+- 4.	The host can now control the selected drone
+- 5.	Status updates are sent to the UI for display
 
 ![Workflow Architecture Diagram](/ss/System%20architechture.png "Workflow Architecture")
 
