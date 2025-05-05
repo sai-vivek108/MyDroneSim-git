@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Serialization;
+using Unity.Netcode;
 
 namespace RageRunGames.EasyFlyingSystem
 {
@@ -36,7 +37,8 @@ namespace RageRunGames.EasyFlyingSystem
         protected float currentRoll;
         protected float currentYaw;
         protected float yaw;
-        
+        protected NetworkObject networkObject;
+
         private void Start()
         {
             Initialize();
@@ -63,28 +65,42 @@ namespace RageRunGames.EasyFlyingSystem
                     RigidbodyConstraints.FreezePositionX;
                 rb.freezeRotation = true;
             }
-
             InputHandler = GetComponent<IInputHandler>();
+            networkObject = GetComponent<NetworkObject>();
         }
-        
+
+
         protected virtual void Update()
         {
-            InputHandler.HandleInputs();
+            if (InputHandler == null)
+            {
+                InputHandler = GetComponent<IInputHandler>();
+            }
+
+            if (networkObject.IsOwner)
+            {
+                InputHandler.HandleInputs();
+            }
         }
 
         protected virtual void FixedUpdate()
         {
-            HandleThrottle();
-            HandleRotations();
+            if (networkObject.IsOwner)
+            {
+                HandleThrottle();
+                HandleRotations();
+            }
         }
 
-        private void HandleThrottle()
+        protected virtual void HandleThrottle()
         {
             UpdateMovement(InputHandler);
         }
         
         protected virtual void HandleRotations()
         {
+            if (!networkObject.IsOwner) return;
+
             float pitch = InputHandler.Pitch * pitchAmount;
             float roll = -InputHandler.Roll * rollAmount;
             yaw += InputHandler.Yaw * yawAmount;
@@ -98,6 +114,9 @@ namespace RageRunGames.EasyFlyingSystem
                 currentPitch = Mathf.Clamp(currentPitch, pitchRotationLimit.x, pitchRotationLimit.y);
                 currentRoll = Mathf.Clamp(currentRoll, rollRotationLimit.x, rollRotationLimit.y);
             }
+
+            Quaternion currentRotation = Quaternion.Euler(currentPitch, currentYaw, currentRoll);
+            rb.MoveRotation(currentRotation);
         }
         
 

@@ -2,16 +2,33 @@ using UnityEngine;
 
 namespace RageRunGames.EasyFlyingSystem
 {
-    public abstract class BaseInputHandler : MonoBehaviour
+    public abstract class BaseInputHandler : MonoBehaviour, IInputHandler
     {
-        public float Pitch { get; set; }
+        public float Pitch { get; protected set; }
         
-        public float Roll { get; set; }
+        public float Roll { get; protected set; }
         
-        public float Yaw { get; set; }
-        public float Lift { get; set; }
+        public float Yaw { get; protected set; }
+        public float Lift { get; protected set; }
         
-        public bool checkInputs { get; set; }
+        public bool checkInputs { get; protected set; }
+
+        protected virtual void Update()
+        {
+            UpdateInputs();
+        }
+
+        public virtual void UpdateInputs()
+        {
+            // Base implementation does nothing
+            // Override this in derived classes
+        }
+
+        public virtual void HandleInputs()
+        {
+            // Base implementation does nothing
+            // Override this in derived classes
+        }
 
         public void EvaluateAnyKeyDown()
         {

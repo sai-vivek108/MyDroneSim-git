@@ -4,13 +4,11 @@ namespace RageRunGames.EasyFlyingSystem
 {
     public interface IInputHandler
     {
-        public float Pitch { get; set; }
-        
-        public float Roll { get; set; }
-        
-        public float Yaw{ get; set; }
-        public float Lift{ get; set; }
-        public bool checkInputs { get; set; }
+        float Pitch { get; }
+        float Roll { get; }
+        float Yaw { get; }
+        float Lift { get; }
+        bool checkInputs { get; }
 
         void HandleInputs();
     }

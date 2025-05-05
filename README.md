@@ -9,6 +9,8 @@ Sai Vivek Chava
 3. [Input Handling System](#input-handling-system)
 4. [Network and Communication](#network-and-communication)
 5. [Management and Coordination](#management-and-coordination)
+6. [System Architecture](#system-architecture)
+7. [References](#references)
 
 ## Core Control System
 
@@ -240,7 +242,96 @@ Sai Vivek Chava
 - To implement tilt controls, add accelerometer-based control
 - To support different mobile devices, add device-specific adjustments
 
-## System Architecture
+## Network and Communication
+
+### DroneCommunication.cs
+**Purpose**: Handles communication between drones and external systems.
+
+**Key Features**:
+-	Implements message sending and receiving
+-	Manages communication protocols
+-	Handles status updates
+
+**Customization Options**:
+-	Message Format: Modify the message format to include additional information
+-	Update Frequency: Change how often status updates are sent
+-	Protocol Settings: Adjust communication protocol parameters
+
+**Implementation Notes**:
+-	To add new message types, extend the message handling system
+-	To implement secure communication, add encryption to the message system
+-	To support different communication protocols, create a protocol abstraction layer
+
+ 
+ 
+### CommunicationManager.cs
+**Purpose**: Manages overall communication in the system.
+
+**Key Features**:
+-	Coordinates communication between components
+-	Handles message routing
+-	Manages communication protocols
+
+**Customization Options**:
+-	Routing Rules: Modify how messages are routed between components
+-	Protocol Selection: Change which communication protocols are used
+-	Message Filtering: Implement message filtering based on content or source
+
+**Implementation Notes**:
+-	To add new communication channels, extend the communication system
+-	To implement message prioritization, add priority levels to messages
+-	To support different communication modes, create a mode switching system
+
+
+ 
+### NetworkManagerUI.cs
+**Purpose**: Provides UI for network connection management.
+
+**Key Features**:
+-	Displays connection status
+-	Provides host/client selection
+-	Shows connection options
+
+**Customization Options**:
+-	UI Layout: Modify the network UI layout
+-	Connection Options: Add additional connection options
+-	Status Display: Change how connection status is displayed
+
+**Implementation Notes**:
+-	To add new connection types, extend the connection options
+-	To implement connection diagnostics, add diagnostic tools to the UI
+-	To support different network configurations, create a configuration system
+
+ 
+## Management and Coordination
+
+### DroneManager.cs
+**Purpose**: Central manager for all drones in the system.
+
+**Key Features**:
+-	Registers and tracks all drones
+-	Manages drone spawning and despawning
+-	Coordinates drone selection
+-	Handles network client connections
+
+**Important Methods**:
+•	‘RegisterDrone’: Adds a drone to the management system
+•	‘SpawnDroneForClient’: Creates a new drone for a connecting client
+•	‘OnClientConnected’: Handles new client connections
+•	‘OnClientDisconnected’: Handles client disconnections
+
+**Customization Options**:
+-	Spawn Behavior: Modify ‘GetRandomSpawnPosition’ to change where drones spawn
+-	Drone Registration: Change how drones are registered and tracked
+-	Client Handling: Adjust how client connections are managed
+
+**Implementation Notes**:
+-	To implement drone teams, add team assignment logic to the registration system
+-	To add drone persistence, implement a system to save and load drone states
+-	To support different drone types, extend the drone spawning system
+
+
+# System Architecture
 
 The drone simulation system follows a modular architecture with clear separation of concerns:
 
@@ -249,6 +340,19 @@ The drone simulation system follows a modular architecture with clear separation
 3. **UI and Visualization**: The video panel system provides visual feedback and control interfaces.
 4. **Network and Communication**: Communication components enable multiplayer functionality.
 5. **Management**: The `DroneManager` coordinates all components and manages the overall system.
+
+## Interaction Flow
+
+- 1.	User selects a drone through the UI
+- 2.	‘DroneVideoPanelItem’ triggers the ‘OnDroneSelected’ event
+- 3.	‘DroneController’ receives the selection and:
+    * 1.	Changes network ownership to the host
+    * 2.	Switches input type to keyboard
+    * 3.	Updates visual indicators
+4.	The host can now control the selected drone
+5.	Status updates are sent to the UI for display
+
+![Workflow Architecture Diagram](/ss/System%20architechture.png "Workflow Architecture")
 
 ## Extension Points
 
@@ -260,7 +364,7 @@ The system is designed with several extension points to facilitate future develo
 4. **New AI Behaviors**: Add new behavior methods to `AIInputHandler` to implement new AI patterns
 5. **New Communication Protocols**: Extend the communication system to support additional protocols
 
-## References
+# References
 
 ### Unity Assets and Packages
 - **[Easy Flying System with AI Addon](https://assetstore.unity.com/packages/templates/packs/easy-flying-system-with-ai-add-on-228389)**: Base drone control system and AI implementation

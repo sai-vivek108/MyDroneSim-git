@@ -6,8 +6,8 @@ namespace RageRunGames.EasyFlyingSystem
     public class RotorsAnimation : MonoBehaviour
     {
         [SerializeField] private DroneController droneController;
-        [SerializeField] private float propellerSpeedInAir = 1500f;
-        [SerializeField] private float minPropellerSpeedModifier = 0.1f;
+        [SerializeField] private float propellerSpeedInAir = 15000f;
+        [SerializeField] private float minPropellerSpeedModifier = 0.99f;
         
         [Header("Rotors Settings")] 
         [SerializeField] private RotorsInfo[] rotors;
@@ -60,7 +60,7 @@ namespace RageRunGames.EasyFlyingSystem
             else
             {
                 float currentSpeed = currentRotor.speed;
-                float decelerationRate = 720f; // Adjust as needed
+                float decelerationRate = 1f; // Adjust as needed
 
                 currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, decelerationRate * Time.deltaTime);
                 
