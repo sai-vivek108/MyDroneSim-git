@@ -1,4 +1,4 @@
-# Drone Control Testbed Project
+# Real-Time Drone Swarm Control Testbed with AI Navigation and Telemetry
 
 ## Author
 Sai Vivek Chava
