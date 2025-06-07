@@ -3,6 +3,8 @@
 ## Author
 Sai Vivek Chava
 
+## Demo
+![Demo Video](ss/MyDroneSimDemo.mp4)
 ## Table of Contents
 1. [Core Control System](#core-control-system)
 2. [UI and Visualization](#ui-and-visualization)
