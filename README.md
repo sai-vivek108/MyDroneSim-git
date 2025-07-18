@@ -4,8 +4,7 @@
 Sai Vivek Chava
 
 ## Demo
-https://sai-vivek108.github.io/MyDroneSim-git/ss/MyDroneSimDemo.mp4
-
+[DEMO](https://sai-vivek108.github.io/MyDroneSim-git/ss/MyDroneSimDemo.mp4)
 ## Table of Contents
 1. [Core Control System](#core-control-system)
 2. [UI and Visualization](#ui-and-visualization)
