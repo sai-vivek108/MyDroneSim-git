@@ -4,9 +4,7 @@
 Sai Vivek Chava
 
 ## Demo
-<video src="[ss/MyDroneSimDemo.mp4](https://sai-vivek108.github.io/MyDroneSim-git/ss/MyDroneSimDemo.mp4)" controls width="600">
-  Your browser does not support the video. Please download it to view.
-</video>
+https://sai-vivek108.github.io/MyDroneSim-git/ss/MyDroneSimDemo.mp4
 
 ## Table of Contents
 1. [Core Control System](#core-control-system)
