@@ -7,6 +7,7 @@ Sai Vivek Chava
 <video src="ss/MyDroneSimDemo.mp4" controls width="600">
   Your browser does not support the video. Please download it to view.
 </video>
+
 ## Table of Contents
 1. [Core Control System](#core-control-system)
 2. [UI and Visualization](#ui-and-visualization)
